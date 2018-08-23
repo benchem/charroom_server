@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'slice'
+apply plugin: 'org.springframework.boot'
+
+group 'team.benchem'
+version buildVersion
+
+sourceCompatibility = jdkVersion
+
+buildscript {
+    dependencies {
+        classpath("gradle.plugin.com.zeroc.gradle.ice-builder:slice:$sliceVersion")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'http://maven.mipesoft.com:8081/content/groups/public' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+    }
+}
+
+slice {
+    java {
+        srcDir = 'src/main/slice'
+    }
+}
+
+repositories {
+    maven { url 'http://maven.mipesoft.com:8081/content/groups/public' }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compile("com.alibaba:fastjson:$fastjsonVersion")
+    compile("com.zeroc:ice:$iceVersion")
+
+    testCompile("junit:junit:$junitVersion")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
